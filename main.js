@@ -1,11 +1,3 @@
-var text = "body{color:red;}";
-
-// Returns a highlighted HTML string
-var css = Prism.highlight(text, Prism.languages.css);
-
-
-
-
 var result=`
     /*
     * 面试官你好，我是XXX
@@ -26,26 +18,54 @@ var result=`
     /* 我需要一张白纸*/
 `
 
+var result2 = `
+        #paper{
+            width:100px;
+            height:100px;
+            background:red;
+        }
+    `
+
+var text = "body{color:red;}";
+
+// Returns a highlighted HTML string
+var css = Prism.highlight(text, Prism.languages.css);
 
 
-var n=0
-var id=setInterval(()=>{
-    n+=1
-    code.innerHTML=result.substring(0,n)
-    code.innerHTML=Prism.highlight(code.innerHTML, Prism.languages.css);
-    code.innerHTML=code.innerHTML.replace('html','<span style="color:red;">html</span>')
-    // styleTag.innerHTML=result.substring(0,n)
-    if (n>result.length) {
-       clearInterval(id)
-       fn2()
-       fn3(result)
-    }
-},10)
-//准备一张白纸
-function fn2(){
+/*把code写到#code和style标签里*/
+function writeCode(prefix,code,fn){
+        var domCode=document.querySelector('#code')
+        //我们第一次就会把前缀写进来
+        domCode.innerHTML =prefix || ''
+        var n=0
+        var id=setInterval(()=>{
+        n+=1
+        domCode.innerHTML=Prism.highlight(prefix+code.substring(0,n), Prism.languages.css);
+        styleTag.innerHTML=prefix+code.substring(0,n)
+        if (n>=code.length) {
+        clearInterval(id)
+        //writeCode去call这个函数
+        fn.call()
+        
+        }
+    },10)
+}
+writeCode('',result ,()=>{
+    //接受电话
+    createPaper( ()=>{
+        console.log('paper有了')
+        writeCode(result,result2)
+    } )
+})
+
+
+
+//准备一张白纸 虽然他是同步，但也是可以回调
+function  createPaper(fn){
     var paper =document.createElement('div')
     paper.id='paper'
     document.body.appendChild(paper)
+    fn.call()
 }
 
 //给白纸加样式
