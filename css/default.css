@@ -9,8 +9,34 @@
 .token.function{
   color: black;
 }
+
+
 #code{
-  height: 100vh;
   border:  1px solid red;
-  /* overflow: hidden; */
+  overflow: hidden;
+}
+#code{
+  position:fixed;
+  left:0;
+  width:50%;
+  height:100%;
+}
+#paper{
+  position:fixed;
+  right:0;
+  width:50%;
+  height:100%;
+  background:black;
+  display: flex; 
+  justify-content:center;
+  align-items:center;
+  padding:16px;
+}
+#paper> .content{
+  background: white;
+  height: 100%;
+  width:100%;
+}
+#paper >pre{
+  padding-left:16px; 
 }
